@@ -6,8 +6,16 @@ export const UserSignUpController = async(req,res)=>{
         const username= req.body?.username;
         const password=req.body?.password;
         const email=req.body?.email;
-        const avtarLocalPath=req.files?.avtar[0]?.path;
+        console.log("inside usersignupcontroller => ",req.files);
+        const avtarLocalPath=req.files?.avtar?.[0]?.path;
+        console.log("avtarlocalpath => ",avtarLocalPath)
         const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+        if(!avtarLocalPath){
+            throw {
+                message:"avtar is required"
+            }
+        }
 
         const avtarResponse= await UploadOnCloudinary(avtarLocalPath);
         const coverImageResponse= await UploadOnCloudinary(coverImageLocalPath);
@@ -30,7 +38,10 @@ export const UserSignUpController = async(req,res)=>{
 export const UserSignInController = async(req,res)=>{
     try {
         console.log("inside signin controller");
-        console.log(req.body);
+        console.log(req);
+        const username = req.body?.username;
+        const password = req.body?.password;
+        console.log("inside controleer => ",username,password);
         const response =await UserSignInServce(req);
         console.log(response);
         return res.status(201).json({

@@ -24,11 +24,12 @@ export const UserSignUpServce = async({username,password,email,avtar,coverImage}
 
 export const UserSignInServce = async(req)=>{
     try {
-        const email=req.body.email;
+        const email=req.body?.email;
+        const username = req.body?.username;
         console.log("inside userSignInService email : ",email);
-        const password = req.body.password;
+        const password = req.body?.password;
         console.log("inside userSignInService password  : ",password);
-        const user = await findByEmailId({email});
+        const user = await findByEmailId({email,username});
         console.log(user);
         if(!user){
             throw{

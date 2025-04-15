@@ -4,7 +4,7 @@ import {upload}  from '../MiddleWares/Multer.MiddleWare.js'
 const router = express.Router();
 
 
-router.post('/SignIn',UserSignInController);
+router.post('/SignIn',upload.none(),UserSignInController);
 router.post('/SignUp',upload.fields(
     [ 
         {
