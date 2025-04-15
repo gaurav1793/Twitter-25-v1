@@ -23,6 +23,7 @@ export const UploadOnCloudinary =async(localFilePath)=>{
     });
     //file uploaded
     console.log("inside upload on cloudinary response => ",response);
+    fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
     fs.unlinkSync(localFilePath)
