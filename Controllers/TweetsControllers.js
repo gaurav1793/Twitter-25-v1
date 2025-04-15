@@ -1,5 +1,5 @@
 import { createTweetService, deleteTweetService, getTweetByIdService, getTweetService } from "../Services/TweetService.js";
-
+import { UploadOnCloudinary } from "../Utils/cloudinaryConfig.js";
 export const getTweetController = async(req,res)=>{
     try {
         const response = await getTweetService();
@@ -21,7 +21,13 @@ export const getTweetController = async(req,res)=>{
 
 export const createTweetController = async(req,res)=>{
     try {
-        const response = await createTweetService(req);
+        const body=req.body?.body;
+        const imgLocalPath = req.files?.img[0]?.path;
+        console.log("inside crate tweet controller imgLocalPath => ",imgLocalPath);
+        const imgResponse= await UploadOnCloudinary(imgLocalPath);
+        console.log("inside tcreate tweet controller this is img res ",imgResponse);
+        const img = imgResponse?.url || "";
+        const response = await createTweetService({body,img});
         return res.status(201).json({
             success:true,
             message:"creation of tweet",

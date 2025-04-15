@@ -4,6 +4,11 @@ import { upload } from '../MiddleWares/Multer.MiddleWare.js';
 const router = express.Router();
 
 
+const helpafter=(req,res,next)=>{
+    console.log("after file upload");
+    next();
+}
+
 router.post('/createTweet',upload.fields(
                                             [ 
                                                 {
@@ -11,7 +16,7 @@ router.post('/createTweet',upload.fields(
                                                 maxCount:3
                                                 }
                                             ]
-                                        ),createTweetController);
+                                        ),helpafter,createTweetController);
 router.get('/getTweets',getTweetController);
 router.get('/getTweets/:id',getTweetByIdController);
 router.delete('/deleteTweet/:id',deleteTweetController);

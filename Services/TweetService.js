@@ -13,10 +13,8 @@ export const getTweetService = async()=>{
     }
 } 
 
-export const createTweetService = async(req)=>{
+export const createTweetService = async({body,img})=>{
     try {
-        const body=req.body.body;
-        const img = req.body?.img;
         const tweets = await createTweetRepo({body,img});
         return tweets;
     } catch (error) {
