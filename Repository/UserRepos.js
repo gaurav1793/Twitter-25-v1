@@ -1,8 +1,8 @@
 import User from "../Schema/UserSchema.js";
 
-export const UserSignUpRepos=async({username,password,email})=>{
+export const UserSignUpRepos=async({username,password,email,avtar,coverImage})=>{
     try {
-        const user = await User.create({username,password,email});
+        const user = await User.create({username,password,email,avtar,coverImage});
         return user;
     } catch (error) {
         throw error;

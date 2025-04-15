@@ -2,11 +2,9 @@ import {UserSignUpRepos , findByEmailId } from '../Repository/UserRepos.js'
 import { generateToken } from '../Utils/JWTutils.js';
 
 
-export const UserSignUpServce = async(req)=>{
+export const UserSignUpServce = async({username,password,email,avtar,coverImage})=>{
 
     try {
-        const email = req.body?.email;
-        const username=req.body?.username;
         const check = await findByEmailId({email,username});
         if(check){
             throw {
@@ -14,11 +12,7 @@ export const UserSignUpServce = async(req)=>{
                 success:false
             };
         }
-        const user = await UserSignUpRepos({
-            username:req.body.username,
-            password:req.body.password,
-            email:req.body.email
-        });
+        const user = await UserSignUpRepos({username,password,email,avtar,coverImage});
         console.log(user);
         return user;
     } catch (error) {

@@ -17,7 +17,16 @@ const UserSchema = new Schema({
     password:{
         type:String,
         required:true,
+    },
+    avtar:{
+        type:String,
+        required:true
+    },
+    coverImage:{
+        type:String,
+        default:null
     }
+
 },{timestamps:true});
 
 
