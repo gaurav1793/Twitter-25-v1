@@ -4,7 +4,7 @@ export const getTweetController = async(req,res)=>{
     try {
         const response = await getTweetService();
         console.log("inside get tweet controller");
-        console.log(response);
+        console.log("resposne =>",response);
         return res.status(201).json({
             success:true,
             message:"giving all the tweets",
@@ -22,7 +22,7 @@ export const getTweetController = async(req,res)=>{
 export const createTweetController = async(req,res)=>{
     try {
         const body=req.body?.body;
-        const imgLocalPath = req.files?.img[0]?.path;
+        const imgLocalPath = req.files?.img?.[0]?.path;
         console.log("inside crate tweet controller imgLocalPath => ",imgLocalPath);
         const imgResponse= await UploadOnCloudinary(imgLocalPath);
         console.log("inside tcreate tweet controller this is img res ",imgResponse);

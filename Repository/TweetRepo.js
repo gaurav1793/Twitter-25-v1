@@ -14,6 +14,7 @@ export const createTweetRepo =async({body,img})=>{
 export const getTweetRepo = async()=>{
     try {
         const tweets = await Tweet.find();
+        
         return tweets;
     } catch (error) {
         throw error;
