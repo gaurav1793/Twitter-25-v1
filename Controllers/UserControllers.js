@@ -42,11 +42,15 @@ export const UserSignInController = async(req,res)=>{
         const username = req.body?.username;
         const password = req.body?.password;
         console.log("inside controleer => ",username,password);
-        const response =await UserSignInServce(req);
-        console.log(response);
+        const {user,token} =await UserSignInServce(req);
+        console.log({user,token});
+        res.cookie("token",token,{
+            httpOnly:true,
+            sameSite: "strict",
+            maxAge:3600000
+        })
         return res.status(201).json({
-            data:response.user,
-            token:response.token,
+            data:user,
             message:"signIN completed"
         })
     } catch (error) {
