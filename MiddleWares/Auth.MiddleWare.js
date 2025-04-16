@@ -1,19 +1,23 @@
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRECT=process.env.JWT_SECRECT || "your_jwt_secret"
+const jwtKey=process.env.JWT_SECRET
 
 export const authenticateToken = (req,res,next)=>{
-    const token = req.header.Authorization?.split(" ")[1];
-
+    console.log("inside auth middleware jwt key is ",jwtKey);
+    const token = req.headers?.authorization?.split(" ")[1];
+    console.log(' token in header : ',token);
     if(!token){
         return res.status(401).json({message:"access token required"});
     }
 
     try {
-        const decoded = jwt.verify(token,JWT_SECRECT);
+        const decoded = jwt.verify(token,jwtKey);
+        req.user=decoded;
+        console.log("inside authenticae token this is decoded=> ",decoded);
         next();
     } catch (error) {
-        res.status(401).json({
+        console.log("error: ",error.message);
+        res.status(403).json({
             message:'invalid or expired token'
         })
     }

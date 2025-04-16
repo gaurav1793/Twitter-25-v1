@@ -4,7 +4,7 @@ import { createTweetRepo, deleteTweetRepo, getTweetByIdRepo, getTweetRepo } from
 export const getTweetService = async()=>{
     try {
         const tweets = await getTweetRepo();
-        console.log("inside get tweet set=rvice => " ,tweets );
+        
         return tweets;
     } catch (error) {
         throw {

@@ -1,11 +1,14 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express'
 import UserRouter from './Routes/UserRoutes.js';
 import TweetsRouter from './Routes/Tweets.js';
 import connectDb from './Db/Db.js'
-import {config} from 'dotenv';
+
 const app = express()
 
-config();
+
 connectDb();
 
 app.use(express.json());

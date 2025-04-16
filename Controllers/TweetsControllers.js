@@ -1,10 +1,10 @@
 import { createTweetService, deleteTweetService, getTweetByIdService, getTweetService } from "../Services/TweetService.js";
 import { UploadOnCloudinary } from "../Utils/cloudinaryConfig.js";
+
 export const getTweetController = async(req,res)=>{
     try {
         const response = await getTweetService();
         console.log("inside get tweet controller");
-        console.log("resposne =>",response);
         return res.status(201).json({
             success:true,
             message:"giving all the tweets",

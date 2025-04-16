@@ -1,6 +1,7 @@
 import express from 'express'
 import { createTweetController, deleteTweetController, getTweetByIdController, getTweetController } from '../Controllers/TweetsControllers.js';
 import { upload } from '../MiddleWares/Multer.MiddleWare.js';
+import { authenticateToken } from "../MiddleWares/Auth.MiddleWare.js";
 const router = express.Router();
 
 
@@ -17,9 +18,9 @@ router.post('/createTweet',upload.fields(
                                                 }
                                             ]
                                         ),helpafter,createTweetController);
-router.get('/getTweets',getTweetController);
-router.get('/getTweets/:id',getTweetByIdController);
-router.delete('/deleteTweet/:id',deleteTweetController);
+router.get('/getTweets',authenticateToken,getTweetController);
+router.get('/getTweets/:id',authenticateToken,getTweetByIdController);
+router.delete('/deleteTweet/:id',authenticateToken,deleteTweetController);
 
 
 export default router
