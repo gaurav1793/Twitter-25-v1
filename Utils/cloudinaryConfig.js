@@ -15,6 +15,10 @@ cloudinary.config({
 
 export const UploadOnCloudinary =async(localFilePath)=>{
   try {
+    if(localFilePath==undefined){
+      console.log("return kr gya");
+      return ;
+    }
     //uploding file on cloudinary
     console.log("isnide uploadcloudinary local path => ",localFilePath);
     console.log("api_key => ",process.env.API_KEY);

@@ -1,4 +1,5 @@
 import {UserSignUpRepos , findByEmailId } from '../Repository/UserRepos.js'
+import blackListTokenModel from '../Schema/blackListTokenSchema.js';
 import { generateToken } from '../Utils/JWTutils.js';
 
 
@@ -52,5 +53,17 @@ export const UserSignInServce = async(req)=>{
         throw{
             message:error.message
         }
+    }
+}
+
+
+
+export const userSignOutService =async(token)=>{
+    try {
+        console.log("token is here in service",token);
+        await blackListTokenModel.create({ token });
+        return; 
+    } catch (error) {
+        throw error
     }
 }

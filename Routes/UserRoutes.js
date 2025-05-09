@@ -1,6 +1,7 @@
 import express from 'express'
-import { UserSignInController, UserSignUpController } from '../Controllers/UserControllers.js';
+import { UserLogOutController, UserProfileController, UserSignInController, UserSignUpController } from '../Controllers/UserControllers.js';
 import {upload}  from '../MiddleWares/Multer.MiddleWare.js'
+import { authenticateToken } from '../MiddleWares/Auth.MiddleWare.js';
 const router = express.Router();
 
 
@@ -17,6 +18,9 @@ router.post('/SignUp',upload.fields(
         }
     ]
 ),UserSignUpController);
+
+router.get('/userProfile',authenticateToken,UserProfileController);
+router.post('/LogOut',UserLogOutController);
 
 
 
