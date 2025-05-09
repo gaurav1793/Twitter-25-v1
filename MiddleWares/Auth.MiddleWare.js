@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken'
+import User from '../Schema/UserSchema.js';
 
 const jwtKey=process.env.JWT_SECRET
 
-export const authenticateToken = (req,res,next)=>{
+export const authenticateToken = async(req,res,next)=>{
     console.log("inside auth middleware jwt key is ",jwtKey);
-    const token = req.headers?.authorization?.split(" ")[1];
+    const token =req.cookies?.token|| req.headers?.authorization?.split(" ")[1];
     console.log(' token in header : ',token);
     if(!token){
         return res.status(401).json({message:"access token required"});
@@ -12,7 +13,9 @@ export const authenticateToken = (req,res,next)=>{
 
     try {
         const decoded = jwt.verify(token,jwtKey);
-        req.user=decoded;
+        const user =await User.findById(decoded.id);
+        console.log("user is here in jwt" ,user);
+        req.user=user;
         console.log("inside authenticae token this is decoded=> ",decoded);
         next();
     } catch (error) {

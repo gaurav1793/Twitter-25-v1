@@ -1,4 +1,4 @@
-import {UserSignUpServce ,UserSignInServce} from '../Services/UserServices.js'
+import {UserSignUpServce ,UserSignInServce, userSignOutService} from '../Services/UserServices.js'
 import { UploadOnCloudinary } from '../Utils/cloudinaryConfig.js';
 
 export const UserSignUpController = async(req,res)=>{
@@ -9,7 +9,7 @@ export const UserSignUpController = async(req,res)=>{
         console.log("inside usersignupcontroller => ",req.files);
         const avtarLocalPath=req.files?.avtar?.[0]?.path;
         console.log("avtarlocalpath => ",avtarLocalPath)
-        const coverImageLocalPath = req.files?.coverImage[0]?.path;
+        const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
 
         if(!avtarLocalPath){
             throw {
@@ -31,7 +31,7 @@ export const UserSignUpController = async(req,res)=>{
         })
     } catch (error) {
         console.log(error)
-        return res.status(401).json({message:error.message});
+        return res.status(400).json({message:error.message});
     }
 }
 
@@ -46,7 +46,7 @@ export const UserSignInController = async(req,res)=>{
         console.log({user,token});
         res.cookie("token",token,{
             httpOnly:true,
-            sameSite: "strict",
+            sameSite:"strict",
             maxAge:3600000
         })
         return res.status(201).json({
@@ -56,5 +56,27 @@ export const UserSignInController = async(req,res)=>{
     } catch (error) {
         console.log(error)
         return res.status(401).json({message:error.message});
+    }
+}
+
+export const UserProfileController = async(req,res)=>{
+    try {
+        res.status(201).json(req.user);
+    } catch (error) {
+        res.status(400).json({message:"error in getting User Profile"})
+    }
+}
+
+export const UserLogOutController = async(req,res)=>{
+    try {
+        console.log("cookies ye rhi tumhari",req?.cookies);
+        console.log("token ye rha babu",req?.cookies?.token);
+        const token=req.cookies.token
+        res.clearCookie('token');
+        await userSignOutService(token);
+        return res.status(201).json({message:"Logged out successfully"});
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({message:error.message});
     }
 }
