@@ -14,7 +14,7 @@ router.post('/createTweet',upload.fields(
                                             [ 
                                                 {
                                                 name:'img',
-                                                maxCount:3
+                                                maxCount:1
                                                 }
                                             ]
                                         ),helpafter,createTweetController);

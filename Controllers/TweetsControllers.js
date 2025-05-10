@@ -23,11 +23,13 @@ export const createTweetController = async(req,res)=>{
     try {
         const body=req.body?.body;
         const imgLocalPath = req.files?.img?.[0]?.path;
+        const username=req.body?.username;
+        const avtar=req.body?.avtar;
         console.log("inside crate tweet controller imgLocalPath => ",imgLocalPath);
         const imgResponse= await UploadOnCloudinary(imgLocalPath);
         console.log("inside tcreate tweet controller this is img res ",imgResponse);
         const img = imgResponse?.url || "";
-        const response = await createTweetService({body,img});
+        const response = await createTweetService({body,img,username,avtar});
         return res.status(201).json({
             success:true,
             message:"creation of tweet",
