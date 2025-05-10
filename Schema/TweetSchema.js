@@ -9,6 +9,15 @@ const TweetSchema = new Schema ({
     img:{
         type:String,
         default:null
+    },
+    username:{
+        type:String,
+        reuired:true,
+        trim:true
+    },
+    avtar:{
+        type:String,
+        required:true
     }
 },{timestamps:true});
 

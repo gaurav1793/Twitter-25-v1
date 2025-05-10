@@ -2,9 +2,9 @@ import Tweet from "../Schema/TweetSchema.js"
 
 
 
-export const createTweetRepo =async({body,img})=>{
+export const createTweetRepo =async({body,img,username,avtar})=>{
     try {
-        const tweets = await Tweet.create({body,img});
+        const tweets = await Tweet.create({body,img,username,avtar});
         return tweets;
     } catch (error) {
         throw error

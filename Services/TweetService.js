@@ -13,9 +13,9 @@ export const getTweetService = async()=>{
     }
 } 
 
-export const createTweetService = async({body,img})=>{
+export const createTweetService = async({body,img,username,avtar})=>{
     try {
-        const tweets = await createTweetRepo({body,img});
+        const tweets = await createTweetRepo({body,img,username,avtar});
         return tweets;
     } catch (error) {
         throw {
