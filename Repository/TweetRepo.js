@@ -23,7 +23,8 @@ export const getTweetRepo = async()=>{
 
 export const getTweetByIdRepo = async(id)=>{
     try {
-        const tweets = await Tweet.findById(id);
+        const tweets = await Tweet.find({userId:id});
+        console.log("inside reepo get tweet by id",tweets);
         return tweets;
     } catch (error) {
         throw error;
@@ -35,5 +36,16 @@ export const deleteTweetRepo = async(id)=>{
         return tweet;
     } catch (error) {
         throw error;
+    }
+}
+
+
+export const updateTweetRepo = async(id,avtar,username)=>{
+    try {
+        console.log("inside update tweet repo =>",{id,avtar,username})
+        const response = await Tweet.updateMany({userId:id},{ $set: { username: username ,avtar:avtar} });
+        return response;
+    } catch (error) {
+        throw error
     }
 }

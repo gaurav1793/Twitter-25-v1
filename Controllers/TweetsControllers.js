@@ -1,4 +1,4 @@
-import { createTweetService, deleteTweetService, getTweetByIdService, getTweetService } from "../Services/TweetService.js";
+import { createTweetService, deleteTweetService, getTweetByIdService, getTweetService, updateTweetService } from "../Services/TweetService.js";
 import { UploadOnCloudinary } from "../Utils/cloudinaryConfig.js";
 
 export const getTweetController = async(req,res)=>{
@@ -48,10 +48,12 @@ export const createTweetController = async(req,res)=>{
 
 export const getTweetByIdController = async(req,res)=>{
     try {
+        console.log("hello from id controller",req?.params?.id);
         const response = await getTweetByIdService(req?.params?.id);
+
         return res.status(201).json({
             success:true,
-            message:"creation of tweet",
+            message:"get tweets by id",
             data:response
         })
         
@@ -73,6 +75,29 @@ export const deleteTweetController = async(req,res)=>{
             data:response
         })
         
+    } catch (error) {
+        return res.status(401).json({
+            message:error.message,
+            data:error
+        })
+    }
+}
+
+
+export const updateTweetController = async(req,res)=>{
+    try {
+        const id = req?.body.id;
+        const imgLocalPath = req.files?.avtar?.[0]?.path;
+        const username =req?.body?.username;
+        const imgResponse= await UploadOnCloudinary(imgLocalPath);
+        console.log("inside update tweet controller this is avtar res ",imgResponse);
+        const avtar = imgResponse?.secure_url;
+        const response = await updateTweetService({id,avtar,username})
+        return res.status(201).json({
+            data:response,
+            message:'update tweet success'
+        })
+
     } catch (error) {
         return res.status(401).json({
             message:error.message,
