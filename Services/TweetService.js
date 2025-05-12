@@ -1,4 +1,4 @@
-import { createTweetRepo, deleteTweetRepo, getTweetByIdRepo, getTweetRepo } from "../Repository/TweetRepo.js";
+import { createTweetRepo, deleteTweetRepo, getTweetByIdRepo, getTweetRepo, updateTweetRepo } from "../Repository/TweetRepo.js";
 
 
 export const getTweetService = async()=>{
@@ -33,6 +33,7 @@ export const getTweetByIdService = async(id)=>{
                 success:false
             }
         }
+        console.log("hello from tweet id service",tweets);
         return tweets;
     } catch (error) {
         throw {
@@ -56,5 +57,17 @@ export const deleteTweetService = async(id)=>{
         throw {
             message:error.messagea
         }
+    }
+}
+
+
+export const updateTweetService = async({id,avtar,username})=>{
+    try{
+        console.log("inside update tweet service =>",{id,avtar,username});
+        const response = await updateTweetRepo(id,avtar,username);
+        return response;
+    }
+    catch(error){
+        throw error
     }
 }
