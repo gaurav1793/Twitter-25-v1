@@ -15,7 +15,8 @@ export const UserSignUpServce = async({username,password,email,avtar,coverImage}
         }
         const user = await UserSignUpRepos({username,password,email,avtar,coverImage});
         console.log(user);
-        return user;
+        const token = generateToken(user);
+        return {user,token};
     } catch (error) {
         throw{
             message:error.message

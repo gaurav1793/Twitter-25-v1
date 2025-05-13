@@ -7,26 +7,31 @@ export const UserSignUpController = async(req,res)=>{
         const password=req.body?.password;
         const email=req.body?.email;
         console.log("inside usersignupcontroller => ",req.files);
-        const avtarLocalPath=req.files?.avtar?.[0]?.path;
+        const avtarLocalPath=req.files?.avtar?.[0]?.path ;
         console.log("avtarlocalpath => ",avtarLocalPath)
-        const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
+        const coverImageLocalPath = req.files?.coverImage?.[0]?.path ;
 
-        if(!avtarLocalPath){
-            throw {
-                message:"avtar is required"
-            }
-        }
+        // if(!avtarLocalPath){
+        //     throw {
+        //         message:"avtar is required"
+        //     }
+        // }
 
         const avtarResponse= await UploadOnCloudinary(avtarLocalPath);
         const coverImageResponse= await UploadOnCloudinary(coverImageLocalPath);
 
-        const avtar = avtarResponse?.url;
-        const coverImage = coverImageResponse?.url || "";
+        const avtar = avtarResponse?.url || " ";
+        const coverImage = coverImageResponse?.url || " ";
 
-        const response =await UserSignUpServce({username,password,email,avtar,coverImage});
-        console.log(response);
+        const {user,token} =await UserSignUpServce({username,password,email,avtar,coverImage});
+        console.log({user,token});
+        res.cookie("token",token,{
+            httpOnly:true,
+            sameSite:"strict",
+            maxAge:10800000
+        })
         return res.status(201).json({
-            data:response,
+            data:user,
             message:"signUp completed"
         })
     } catch (error) {
