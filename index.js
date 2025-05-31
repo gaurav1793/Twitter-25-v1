@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: './.env' });
 
 import express from 'express'
 import UserRouter from './Routes/UserRoutes.js';
@@ -14,13 +14,14 @@ const app = express()
 connectDb();
 
 app.use(cors({
-    origin: "http://localhost:5173", 
+    origin: process.env.CLIENT_URL,
     credentials: true
   }));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/User',UserRouter);
 app.use('/Tweets',TweetsRouter);
+
 
 app.listen(3000,()=>{
     console.log("server is started on port :3000");
